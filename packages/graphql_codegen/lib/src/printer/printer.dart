@@ -555,7 +555,21 @@ Method printToJsonMethod(String name) => Method(
         ..returns = dynamicMap
         ..name = "toJson"
         ..lambda = true
-        ..body = refer(printToJsonFactoryName(name)).call([refer("this")]).code,
+        ..body = Code(''' 
+          return ${printToJsonFactoryName(name)}(this).map(
+              (key, value) {
+              var map = value;
+              if (value is Map<String, dynamic>) {
+                Map<String, dynamic> valueMap = value;
+                valueMap.removeWhere((key, value) => value == null);
+                print(valueMap);
+                map = valueMap;
+              }
+
+          return MapEntry(key, map is Map<String, dynamic> ? Map.fromEntries(map.entries) : map);
+          },
+        );
+        '''),
     );
 
 Field printClassProperty(
