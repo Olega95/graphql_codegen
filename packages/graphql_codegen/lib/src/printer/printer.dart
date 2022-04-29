@@ -554,7 +554,7 @@ Method printToJsonMethod(String name) => Method(
       (b) => b
         ..returns = dynamicMap
         ..name = "toJson"
-        ..lambda = true
+        ..lambda = false
         ..body = Code(''' 
           return ${printToJsonFactoryName(name)}(this).map(
               (key, value) {
