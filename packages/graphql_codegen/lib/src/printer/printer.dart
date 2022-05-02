@@ -564,6 +564,15 @@ Method printToJsonMethod(String name) => Method(
                 valueMap.removeWhere((key, value) => value == null);
                 print(valueMap);
                 map = valueMap;
+              } else if (value is List<Map<String, dynamic>>) {
+                List<Map<String, dynamic>> valueList = value;
+                List<Map<String, dynamic>> newValueList = List.empty(growable: true);
+                valueList.forEach((element) {
+                  Map<String, dynamic> newElement = element;
+                  newElement.removeWhere((key, val) => val == null);
+                  newValueList.add(newElement);
+                });
+                map = newValueList;
               }
 
           return MapEntry(key, map is Map<String, dynamic> ? Map.fromEntries(map.entries) : map);
